@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мир тигров - Узнайте всё о великих кошках</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Базовые стили и сброс */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #FF6B35; /* Оранжевый цвет тигра */
+            --secondary-color: #2D3047; /* Темно-синий */
+            --accent-color: #FFD166; /* Желтый акцент */
+            --light-color: #F5F5F5;
+            --dark-color: #1A1A2E;
+            --text-color: #333;
+            --text-light: #777;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Контейнер */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Навигация */
+        header {
+            background-color: var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Основной контент */
+        .page-content {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .page-content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(rgba(45, 48, 71, 0.85), rgba(45, 48, 71, 0.9)), url('https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Секции */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: var(--secondary-color);
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Карточки */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Видео секция */
+        .video-section {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .video-preview {
+            max-width: 800px;
+            margin: 40px auto 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background-color: white;
+            padding: 40px;
+        }
+
+        .video-icon {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .video-title {
+            font-size: 24px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .video-description {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .video-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .video-button:hover {
+            background-color: #ff5a1f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .video-button i {
+            font-size: 20px;
+        }
+
+        .video-note {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary-color);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .video-preview {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .section {
+                padding: 40px 0;
+            }
+            
+            .video-preview {
+                padding: 20px 15px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-button {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <span>Мир тигров</span>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link active" data-page="home">Главная</a></li>
+                    <li><a href="#" class="nav-link" data-page="species">Виды тигров</a></li>
+                    <li><a href="#" class="nav-link" data-page="habitat">Среда обитания</a></li>
+                    <li><a href="#" class="nav-link" data-page="conservation">Сохранение</a></li>
+                    <li><a href="#" class="nav-link" data-page="gallery">Галерея</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главная страница -->
+    <section id="home" class="page-content active">
+        <div class="hero">
+            <div class="container">
+                <h1>Величественные тигры</h1>
+                <p>Тигры — одни из самых красивых и мощных хищников на планете. Узнайте больше об этих удивительных животных, их образе жизни, среде обитания и усилиях по их сохранению.</p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">О тиграх</h2>
+                <p>Тигр (Panthera tigris) — самый крупный и один из самых узнаваемых видов кошачьих. Эти величественные хищники обитают в различных частях Азии и известны своими отличительными вертикальными полосами и рыжевато-оранжевым мехом.</p>
+                <p>К сожалению, все подвиды тигров находятся под угрозой исчезновения из-за потери среды обитания, браконьерства и конфликтов с человеком. В дикой природе осталось всего около 3900 особей.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=911104a5c1d04297fb9c907abf1106b9_l-5213440-images-thumbs&n=13" alt="Тигр в природе" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Характеристики</h3>
+                            <p>Тигры могут достигать длины до 3,3 метров и весить до 300 кг. Они обладают мощными лапами, острыми когтями и сильными челюстями.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=290f703f4ceb7cd96bc94e3370171bcc59e7511b-5340221-images-thumbs&n=13" alt="Тигр в воде" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Особенности</h3>
+                            <p>Тигры — отличные пловцы и часто охлаждаются в водоемах в жаркую погоду. В отличие от большинства кошачьих, они любят воду.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=a293f6fa76a8016a20f95c6ea27c6705_l-4570664-images-thumbs&n=13" alt="Тигр в снегу" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Охота и питание</h3>
+                            <p>Тигры — одиночные охотники, которые преимущественно активны ночью. Их рацион состоит в основном из крупных копытных животных.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Видео секция с кнопкой -->
+            <div class="video-section">
+                <h2 class="section-title">Видео о больших кошках</h2>
+                <p>Хотя наш сайт посвящен тиграм, предлагаем вам также узнать о их ближайших родственниках — львах.</p>
+                
+                <div class="video-preview">
+                    <div class="video-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3 class="video-title">Документальный фильм о львах</h3>
+                    <p class="video-description">Посмотрите увлекательный документальный фильм от National Geographic о жизни львов в их естественной среде обитания.</p>
+                    <a href="https://youtu.be/kKy7p9AhZh0" target="_blank" class="video-button">
+                        <i class="fab fa-youtube"></i>
+                        Смотреть видео на YouTube
+                    </a>
+                </div>
+                <p class="video-note">Видео откроется в новой вкладке на YouTube</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница видов тигров -->
+    <section id="species" class="page-content">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">Виды тигров</h2>
+                <p>Существует несколько подвидов тигров, каждый из которых уникален и приспособлен к своей среде обитания. К сожалению, три подвида уже вымерли в XX веке.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=d9658fd8c0aaa125d6306c2e26bf3e2695b9527d-4485427-images-thumbs&n=13" alt="Амурский тигр" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Амурский тигр</h3>
+                            <p>Самый крупный подвид, обитающий в дальневосточных регионах России и Китая. Отличается густым мехом светлого окраса.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=94c1dd2186e6bc25a33fbc76af118e5e5037d06e-5170213-images-thumbs&n=13" alt="Бенгальский тигр" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Бенгальский тигр</h3>
+                            <p>Наиболее многочисленный подвид, обитающий в Индии, Бангладеш, Непале и Бутане. Имеет яркий оранжевый окрас с черными полосами.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=afeed7f5a9b7774d69b40c8e93c4ec4687f998dc-12471018-images-thumbs&n=13" alt="Суматранский тигр" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Суматранский тигр</h3>
+                            <p>Самый маленький из ныне живущих подвидов, обитающий только на индонезийском острове Суматра. Находится под критической угрозой исчезновения.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=17089c8aad84ea55631d88b0c38f138b_l-7887771-images-thumbs&n=13" alt="Малайский тигр" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Малайский тигр</h3>
+                            <p>Обитает исключительно на юге Малайского полуострова. Был признан отдельным подвидом только в 2004 году.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница среды обитания -->
+    <section id="habitat" class="page-content">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">Среда обитания</h2>
+                <p>Тигры historically занимали обширные территории across Азии, от турецкой Анатолии на западе до восточного побережья России. Сегодня их ареал значительно сократился.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=e8c8111cad1f068b1e41922d8b4546f41238c447-3614575-images-thumbs&n=13" alt="Леса" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Леса</h3>
+                            <p>Большинство тигров обитают в различных типах лесов: тропических, субтропических и умеренных. Леса обеспечивают укрытие и богатую добычу.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=8dafe4bbbac5f3fa870dc074ed1ea7b029b5af7e-7545494-images-thumbs&n=13" alt="Мангровые заросли" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Мангровые заросли</h3>
+                            <p>Бенгальские тигры в Сундарбане (Индия и Бангладеш) адаптировались к жизни в крупнейших в мире мангровых лесах.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=df9570b8b5788a334d091ad9663c852e_l-5682746-images-thumbs&n=13" alt="Саванны" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Саванны и луга</h3>
+                            <p>Некоторые популяции тигров обитают в саваннах и лугах, где они охотятся на крупных травоядных животных.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница сохранения -->
+    <section id="conservation" class="page-content">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">Сохранение тигров</h2>
+                <p>Тигры находятся под угрозой исчезновения. Основные угрозы включают потерю среды обитания, браконьерство и конфликты с человеком. Усилия по сохранению приносят результаты, но требуют постоянной поддержки.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title"><i class="fas fa-paw"></i> Защита мест обитания</h3>
+                            <p>Создание и расширение охраняемых территорий — ключевой элемент сохранения тигров. Это помогает защитить не только тигров, но и всю экосистему.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title"><i class="fas fa-shield-alt"></i> Борьба с браконьерством</h3>
+                            <p>Усиление патрулирования и ужесточение законов против браконьерства и незаконной торговли частями тела тигров.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title"><i class="fas fa-users"></i> Работа с местным населением</h3>
+                            <p>Вовлечение местных сообществ в программы сохранения тигров через образование и создание альтернативных источников дохода.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title"><i class="fas fa-globe-asia"></i> Международное сотрудничество</h3>
+                            <p>Совместные усилия стран ареала тигра и международных организаций для координации программ по сохранению.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section id="gallery" class="page-content">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">Галерея тигров</h2>
+                <p>Полюбуйтесь красотой и грацией этих великолепных животных в нашей фотогалерее.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=a058382191969a358f9685678a3d518581eb0279-5288402-images-thumbs&n=13" alt="Тигр в воде" class="card-img">
+                        <div class="card-content">
+                            <p>Тигры — отличные пловцы и часто проводят время в воде, особенно в жарком климате.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=a873981b28ec1adf52042ad20f5e907b0ae5d9e5-5151070-images-thumbs&n=13" alt="Тигр в лесу" class="card-img">
+                        <div class="card-content">
+                            <p>Тигры — мастера маскировки. Их полосатый окрас идеально скрывает их в лесной чаще.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=15493ae85969f3ff036fcdb883db8ef61f387742-4593530-images-thumbs&n=13" alt="Тигр крупным планом" class="card-img">
+                        <div class="card-content">
+                            <p>Взрослый тигр может достигать 3,3 метров в длину и весить до 300 кг.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="https://avatars.mds.yandex.net/i?id=4166e8158b4b3af5a6ccf2d64f43d7abbe347cf5-8497046-images-thumbs&n=13" alt="Тигр в снегу" class="card-img">
+                        <div class="card-content">
+                            <p>Амурские тигры прекрасно приспособлены к жизни в суровых зимних условиях.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Мир тигров</h3>
+                    <p>Сайт посвящен одному из самых величественных животных планеты — тигру. Мы стремимся распространять информацию о важности сохранения этих прекрасных хищников.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Быстрые ссылки</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-page="home">Главная</a></li>
+                        <li><a href="#" data-page="species">Виды тигров</a></li>
+                        <li><a href="#" data-page="habitat">Среда обитания</a></li>
+                        <li><a href="#" data-page="conservation">Сохранение</a></li>
+                        <li><a href="#" data-page="gallery">Галерея</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> Vera@tigerworld.ru</li>
+                        <li><i class="fas fa-phone"></i> +375 (25) 688 79 30</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Минск, ул. Природная, 15</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Мир тигров. Все права защищены. | Сайт создан Верой Калацкой</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Навигация между страницами
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinksContainer = document.querySelector('.nav-links');
+            
+            // Обработчик для навигационных ссылок
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Получаем целевую страницу
+                    const targetPage = this.getAttribute('data-page');
+                    
+                    // Скрываем все страницы
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Показываем целевую страницу
+                    document.getElementById(targetPage).classList.add('active');
+                    
+                    // Обновляем активную ссылку в навигации
+                    navLinks.forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Закрываем мобильное меню после выбора страницы
+                    navLinksContainer.classList.remove('active');
+                });
+            });
+            
+            // Мобильное меню
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+            
+            // Закрытие меню при клике вне его
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
+                    navLinksContainer.classList.remove('active');
+                }
+            });
+            
+            // Добавляем интерактивность карточкам
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
